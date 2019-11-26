@@ -1,35 +1,42 @@
 module.exports.movie = [
   {
-    title: "Angers 1",
+    title: "Avengers 1",
+    starring: "Marvel Guys"
   },
   {
-    title: "Angers 2",
+    title: "Avengers 2",
+    starring: "Marvel Guys"
   },
   {
-    title: "Angers 3",
+    title: "Avengers 3",
+    starring: "Marvel Guys"
   },
   {
-    title: "Angers 4",
+    title: "Avengers 4",
+    starring: "Marvel Guys"
   },
   {
-    title: "Angers 5",
+    title: "Avengers 5",
+    starring: "Marvel Guys"
   },
   {
-    title: "Angers 6",
+    title: "Avengers 6",
+    starring: "Marvel Guys"
   },
   {
-    title: "Angers 7",
-  }
-];
-{
-  title: "Angers 8",
-}
-];
-{
-  title: "Angers 9",
-}
-];
-{
-  title: "Angers 10",
-}
+    title: "Avengers 7",
+    starring: "Marvel Guys"
+  },
+  {
+    title: "Avengers 8",
+    starring: "Marvel Guys"
+  },
+  {
+    title: "Avengers 9",
+    starring: "Marvel Guys"
+  },
+  {
+    title: "Avengers 10",
+    starring: "Marvel Guys"
+  },
 ];

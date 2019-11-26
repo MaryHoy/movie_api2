@@ -15,6 +15,8 @@ let topMovies = [
   }
 ];
 
+app.use(express.static('public'));
+app.use(morgan('common'));
 app.get("/index.html", function(req, res) {});
 app.get("/", function(req, res) {
   res.send("Welcome to my app!");
