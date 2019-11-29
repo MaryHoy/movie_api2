@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const Movie = require("./movies");
-const Text = require("./text");
+//const Text = require("./text");
 let topMovies = [
   {
     title: "Avengers 1",
@@ -26,8 +26,8 @@ app.get("/secreturl", function(req, res) {
   res.send("This is a secret url with super top-secret content.");
 });
 
-app.get("/documentation", function(req, res) {
-  res.sendFile("public/documentation.html", { root: __dirname });
+app.get("/document", function(req, res) {
+  res.sendFile("public/document.html", { root: __dirname });
 });
 app.get("/books", function(req, res) {
   res.json(topMovies);
