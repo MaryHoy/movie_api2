@@ -1,42 +1,40 @@
 module.exports.movie = [
   {
-    title: "Avengers 1",
-    starring: "Marvel Guys"
+    title: "Avengers: Age of Ultron",
+    director: "Joss Whedon"
   },
   {
-    title: "Avengers 2",
-    starring: "Marvel Guys"
+    title: "Iron Man",
+    author: "Jon Favreau"
   },
   {
-    title: "Avengers 3",
-    starring: "Marvel Guys"
+    title: "Iron Man 2",
+    director: "Jon Favreau"
   },
   {
-    title: "Avengers 4",
-    starring: "Marvel Guys"
+    title: "Iron Man 3",
+    director: "Shane Black"
   },
   {
-    title: "Avengers 5",
-    starring: "Marvel Guys"
+    title: "Ant-Man",
+    director: "Stephanie Meyer"
   },
   {
-    title: "Avengers 6",
-    starring: "Marvel Guys"
+    title: "Captain America: The First Avenger",
+    director: "Joe Johnston"
   },
   {
-    title: "Avengers 7",
-    starring: "Marvel Guys"
-  },
+    title: "Avengers: Infinity War",
+    director: "Anthony and Joe Russo"
+  }
+];
+
+module.exports.user = [
   {
-    title: "Avengers 8",
-    starring: "Marvel Guys"
-  },
-  {
-    title: "Avengers 9",
-    starring: "Marvel Guys"
-  },
-  {
-    title: "Avengers 10",
-    starring: "Marvel Guys"
-  },
+    Name: "string",
+    Password: "password",
+    Email: "string",
+    Birthday: Date,
+    Favoritemovies: ["Movie"]
+  }
 ];
