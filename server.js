@@ -24,4 +24,14 @@ http.createServer((request, response) => {
 
   });
 
-}).listen(8080);
+
+    fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n', function(err) {
+      if (err) {
+        console.log(err);
+      }
+        else {
+      console.log('Added to log.');
+      }
+    });
+
+  }).listen(8080);

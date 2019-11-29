@@ -36,7 +36,9 @@ let Students = [
 app.get("/students", (req, res) => {
   res.json(Students);
 });
-
+app.get("/students", (req, res) => {
+ res.send(“Successful GET request returning data on all the students”);
+});
 app.get("/students/:name", (req, res) => {
   res.json(
     Students.find(student => {
