@@ -153,6 +153,6 @@ app.delete('/users/:id/:movie_id', (req, res) => {
   }
 });
 
-aapp.listen(8080, () => {
+app.listen(8080, () => {
   console.log(`Your app is listening on port 8080`);
 });
