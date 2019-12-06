@@ -96,12 +96,13 @@ app.post('/users', (req, res) => {
 
 // Allow existing users to deregister
 app.delete('/users/:id', (req, res) => {
-  let user = Users.find((user) => { return user.id === req.params.id; });
+  // let user = Users.find((user) => { return user.id === req.params.id; });
 
-  if (user) {
-    Users = Users.filter(function(obj) { return obj.id !== req.params.id; });
-    res.status(201).send('User ' + user.name + ' with id ' + req.params.id + ' was deleted.')
-  }
+  // if (user) {
+  //   Users = Users.filter(function(obj) { return obj.id !== req.params.id; });
+  //   res.status(201).send('User ' + user.name + ' with id ' + req.params.id + ' was deleted.')
+  // }
+  res.status(200).send('deleting a user')
 });
 
 // Allow users to update their user info
