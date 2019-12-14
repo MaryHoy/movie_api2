@@ -55,7 +55,7 @@
           <td>GET</td>
           <td>None</td>
           <td>
-            JSON object holding all data about selected movie:
+            JSON object that returns a list of ALL movies to the user:
             <p>
               { Title: "Silence Of the Lambs", Description: "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.",
               Genre: {Name: "thriller", Description: "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience. Tension is created by delaying what the audience sees as inevitable, and is built through situations that are menacing or where escape seems impossible."}, Director: {Name: "Johnathan Demme", Bio:
@@ -71,11 +71,7 @@
           <td>GET</td>
           <td>None</td>
           <td>
-              { Title: "Silence Of the Lambs", Description: "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.",
-              Genre: {Name: "thriller", Description: "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience. Tension is created by delaying what the audience sees as inevitable, and is built through situations that are menacing or where escape seems impossible."}, Director: {Name: "Johnathan Demme", Bio:
-              "Robert Jonathan Demme was an American director, producer, and screenwriter.", Birth: "1944", Death:
-              "Unknown"}, ImagePath:
-              "silenceofthelambs.png", Featured: false}
+              JSON object that returns data of a specific movie title (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user:
           </td>
         </tr>
         <tr>
@@ -84,15 +80,14 @@
           <td>GET</td>
           <td>None</td>
           <td>
-            JSON object holding data about a movie genre, containing name and
-            description:
+            JSON object holding data about a movie genre(description) by name/title (e.g., “Thriller”):
             <p>
                 {Name: "thriller", Description: "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience. Tension is created by delaying what the audience sees as inevitable, and is built through situations that are menacing or where escape seems impossible."}
             </p>
           </td>
         </tr>
         <tr>
-          <td>Get data about a specific director:</td>
+          <td>Get data about a specific director (bio, birth year, death year) by name:</td>
           <td>/director/[name]</td>
           <td>GET</td>
           <td>None</td>
@@ -109,7 +104,7 @@
           <td>/users</td>
           <td>POST</td>
           <td>
-            JSON object holding data about a user:
+            JSON object to Allow new users to register:
             <p>
               {username: "John Doe", password: "John88", email:
               "johndoe@gmail.com", dateofbirth: "1990-10-10"}
@@ -128,7 +123,7 @@
           <td>/users/[username]</td>
           <td>PUT</td>
           <td>
-            JSON object holding data about the user's updated info:
+            JSON object Allows users to update their user info (username, password, email, date of birth):
             <p>
                 {username: "John Doe", password: "John88", email:
                 "johndoe@gmail.com", dateofbirth: "1990-10-10"}
@@ -155,7 +150,7 @@
           </td>
         </tr>
         <tr>
-          <td>Remove a user:</td>
+          <td>Allow existing users to deregister</td>
           <td>/users/[username]</td>
           <td>DELETE</td>
           <td>None</td>
