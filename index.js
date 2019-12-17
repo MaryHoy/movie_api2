@@ -15,10 +15,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.post('/users', function(req, res) {}); function:
-
-
-
 // Return a list of ALL movies to the user
 app.get('/movies', function(req , res){ 
     
@@ -59,8 +55,8 @@ app.get("/movies/:movieId", function(req, res) {
 // Return data about a director (bio, birth year, death year) by name
   app.get("movies/directors/:name", function(req, res) {
     Movies.findOne({ "Director.Name" : req.params.Name })
-  .then(movies) {
-    res.json(movies.Director)
+  .then(function(movies) {
+    res.status(201).json(movies.Director)
   })
   .catch(function(err) {
     console.error(err);
