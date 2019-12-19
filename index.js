@@ -16,16 +16,14 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true});
 var auth = require('./auth')(app);
 
 // Return a list of ALL movies to the user
-app.get('/movies', function(req , res){ 
-    
+app.get("/movies", passport.authenticate('jwt', { session: false }), function(req, res) {
   Movies.find()
-   .then(function(movies){
-      res.status(201).json(movies)
-  })
-   .catch(function(error){
+    .then(function(movies) {
+      res.status(201).json(movies);
+    }).catch(function(error) {
       console.error(error);
       res.status(500).send("Error: " + error);
-  }); 
+    });
 });
 
 // Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
