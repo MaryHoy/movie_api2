@@ -20,7 +20,13 @@ var movieSchema = mongoose.Schema({
    Password : {type: String, required: true},
    Email : {type: String, required: true},
    Birthday : Date,
-   FavoriteMovies : [{ type : mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
+   _FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+   get FavoriteMovies() {
+       return this._FavoriteMovies;
+   },
+   set FavoriteMovies(value) {
+       this._FavoriteMovies = value;
+   },
   });
   
   var Movie = mongoose.model('Movie', movieSchema);
