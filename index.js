@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Models = require('./models.js');
-
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -29,16 +28,20 @@ app.get('/movies', function(req , res){
 });
 
 // Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
-app.get("/movies/:movieId", function(req, res) {
-  Users.findOne({ MovieId : req.params.MovieId })
-  .then(function(movie) {
-    res.json(movie)
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
-  });
-});
+app.get(
+  "/movies/:movieId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.findOne({ Title: req.params.Title })
+      .then((movie) => {
+        res.json(movie);
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      });
+  }
+);
 
   // Return data about a genre (description) by name/title (e.g., “Thriller”)
   app.get("/movies/genres/:Name", function(req, res) {
@@ -53,14 +56,14 @@ app.get("/movies/:movieId", function(req, res) {
       });
 
 // Return data about a director (bio, birth year, death year) by name
-  app.get("movies/directors/:name", function(req, res) {
+  app.get("movies/directors/:Name", function(req, res) {
     Movies.findOne({ "Director.Name" : req.params.Name })
   .then(function(movies) {
     res.status(201).json(movies.Director)
   })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
+  .catch((error) => {
+    console.error(error);
+    res.status(500).send("Error: " + error);
   });
 });
 
