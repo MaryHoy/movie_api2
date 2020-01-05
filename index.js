@@ -14,17 +14,13 @@ const express = require('express'),
 
 require('./passport');
 
-//Local database connection
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', {useNewUrlParser: true});
-
-//MongoDB Atlas connection
 mongoose.connect('mongodb+srv://maryhoy:1981@@cluster0-uufoi.mongodb.net/myFlixDB?retryWrites=true', { useNewUrlParser: true });
 
 const app = express();
 
-var allowedOrigins = ['http://localhost:8080', 'http://erinnienhuis.com'];
+var allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
-//CORS implementation
+//CORS
 app.use(cors({
   origin: function(origin, callback){
     if(!origin) return callback(null, true);
@@ -34,19 +30,13 @@ app.use(cors({
     }
     return callback(null, true);
   }
-})); //Does this belong in the Middleware requests area, or is it not considered Middleware?
+}));
 
-//Middleware Requests
-//Logging
 app.use(morgan('common'));
-//JSON Parsing
 app.use(bodyParser.json());
 //User Auth
 var auth = require('./auth')(app);
-//Static files
 app.use(express.static('public'));
-//App Routing -- always last
-//Error Handling -- actually last of all middleware
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Uh-oh! Something\'s not right!');
@@ -58,104 +48,117 @@ app.get('/', function(req, res) {
   res.send(responseText);
 });
 
-//Gets a list of movies - Mongoose .find()
-app.get('/movies', function(req, res) {
+// Return a list of ALL movies to the user
+app.get("/movies", passport.authenticate("jwt", { session: false }), function(
+  req,
+  res
+) {
   Movies.find()
     .then(function(movies) {
       res.status(201).json(movies);
+    })
+    .catch(function(error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
+
+// Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user
+app.get("/movies/:Title", (req, res) => {
+  Movies.findOne({Title: req.params.Title})
+  .then(function(movie){
+    if(movie){
+      res.json(movie);
+    }else{
+      res.status(400).send(req.params.Title + "does not exist");
+    }
+  })
+  .catch(function(err){
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+
+// Return data about a genre (description) by name/title (e.g., “Thriller”)
+app.get("/movies/genres/:Title", (req, res) => {
+  Movies.findOne({Title: req.params.Title})
+  .then(function(movie){
+    if(movie){
+      res.status(201).json(movie.Genre);
+    }else{
+      res.status(400).send(req.params.Title + "does not exist");
+    }
+  })
+  .catch(function(err){
+    console.error(err);
+    res.status(500).send("Error: " + err);
+  });
+});
+
+// Return data about a director (bio, birth year, death year) by name
+app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false }), function(req, res) {
+  Movies.findOne({"Director.Name" : req.params.Name})
+  .then(function(movies){
+    res.json(movies.Director)
+  })
+  .catch(function(err) {
+    console.error(err);
+    res.status(500).send("Error:" + err);
+  });
+});
+
+// Allow new users to register
+/* We’ll expect JSON in this format
+{
+ ID : Integer,
+ Username : String,
+ Password : String,
+ Email : String,
+ Birthday : Date
+}*/
+app.post('/users',
+  [check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()],(req, res) => {
+  var errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  var hashedPassword = Users.hashPassword(req.body.Password);
+  Users.findOne({ Username : req.body.Username }) // Search to see if a user with the requested username already exists
+  .then(function(user) {
+    if (user) {
+        return res.status(400).send(req.body.Username + " already exists");
+    } else {
+      Users
+      .create({
+        Username : req.body.Username,
+        Password: hashedPassword,
+        Email : req.body.Email,
+        Birthday : req.body.Birthday
+      })
+      .then(function(user) { res.status(201).json(user) })
+      .catch(function(error) {
+          console.error(error);
+          res.status(500).send("Error: " + error);
+      });
+    }
   }).catch(function(error) {
     console.error(error);
     res.status(500).send("Error: " + error);
   });
 });
 
-//Gets the data about a single movie by title
-app.get("/movies/:Title", function(req, res) {
-  Movies.findOne({ Title : req.params.Title })
-  .then(function(movie) {
-    res.json(movie)
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err)
-  });
-  });
-
-//Gets description of a genre by genre name
-app.get("/genres/:Genre", function(req, res) {
-  Genres.findOne({ Name : req.params.Genre })
-  .then(function(genre) {
-    res.json(genre.Description)
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err)
-  });
-});
-
-//Gets a list of movies by genre
-app.get("/movies/genres/:genre", (req, res) => {
-  //Search by genre name and return ID
-
-  //Search all movie documents' Genres array for the ID returned above
-
-  //Mongoose callback function
-  //Movies.find( { "Genre.Name" : "Thriller" }, function(err, movies) {
-    //Logic here
-  //} );
-
-  //Mongoose promise function
-  //Movies.find( { "Genre.Name" : "Thriller" }).then(function(movies) {
-    //Logic here
-  //});
-
-  res.send('This function is not yet built.');
-})
-
-//Gets data about a director by name
-app.get("/directors/:Name", function(req, res) {
-  Directors.findOne({ Name : req.params.Name })
-  .then(function(director) {
-    res.json(director)
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err)
-  });
-});
-
-//Adds data for a new movie to the list of movies
-app.post("/movies", (req, res) => {
-//   let newMovie = req.body;
-//   if (!newMovie.title) {
-//     const message = "Missing title in request body";
-//     res.status(400).send(message);
-//   } else {
-//     newMovie.id = uuid.v4();
-//     topMovies.push(newMovie);
-//     res.status(201).send(newMovie);
-// }'
-  res.send('This function is not yet built.');
-});
-
-//Deletes a movie from the list by title
-app.delete("/movies/:title", (req, res) => {
-  // let movie = topMovies.find((movie) => { return movie.title === req.params.title });
-  //
-  // if (movie) {
-  //   topMovies.filter(function(obj) { return obj.title !== req.params.title });
-
-  // res.status(201).send("Movie " + req.params.title + " was deleted.")
-// }
-  res.send('This function is not yet built.');
-});
-
-//USERS
-//Gets all users - Mongoose .find()
-app.get('/users', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.find()
-  .then(function(users) {
-    res.status(201).json(users)
+// Allow existing users to deregister
+app.delete('/users/:Username', function(req, res) {
+  Users.findOneAndRemove({ Username: req.params.Username })
+  .then(function(user) {
+    if (!user) {
+      res.status(400).send(req.params.Username + " was not found");
+    } else {
+      res.status(200).send(req.params.Username + " was deleted.");
+    }
   })
   .catch(function(err) {
     console.error(err);
@@ -163,155 +166,124 @@ app.get('/users', passport.authenticate('jwt', { session: false }), function(req
   });
 });
 
-//Gets a user by username - Mongoose  .findOne()
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOne({ Username : req.params.Username })
-  .then(function(user) {
-    res.json(user)
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err)
-  });
-});
 
-//Posts a new user - Mongoose .create()
-app.post('/users',
-  //Validation logic
-  [
-    check('Username', 'Username cannot have fewer than 5 characters.').isLength({min: 5}),
-    check('Username', 'Username may not contain non alphanumeric characters.').isAlphanumeric(),
-    check('Password', 'Password is required.').not().isEmpty(),
-    check('Email', 'Email must be valid email address.').isEmail()
-  ], (req, res) => {
-    //Check validation object for errors
-    var errors = validationResult(req);
+// Allow users to update their user info (username, password, email, date of birth)
 
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-  //API Post logic
-  var hashedPassword = Users.hashPassword(req.body.Password); //Hash the password using the HashPassword from bcrypt, enforced by models.js
-
-  Users.findOne({ Username : req.body.Username }) //Query db to see if user already exists
-  .then(function(user) {
-    if (user) { //if username already exists
-      return res.status(400).send(req.body.Username + "already exists!");
-    } else { //Username does not exist; create
-      Users
-      .create({
-        Username: req.body.Username,
-        Password: hashedPassword, //Store the hashed password
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
-      })
-      .then(function(user) {res.status(201).json(user) }) //new document 'user' sent back to client with status code
-      .catch(function(error) {
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      })
-    }
-  }).catch(function(error) {
-    console.error(error);
-    res.status(500).send("Error: " + error);
-  });
-});
-
-//Updates user info by username - Mongoose Update - different syntax from the others
-//If you don't include all the information from the collection in the update statement, it sets those values to null? Will need to change that
-//Also need to check that the updated Username is not duplicated (and probably Email)
-//Need to add an error response for when the query does not find a username to update
+/* We’ll expect JSON in this format
+{
+  Username: String,
+  (required)
+  Password: String,
+  (required)
+  Email: String,
+  (required)
+  Birthday: Date
+}*/
 app.put("/users/:Username",
-//Validation logic
+passport.authenticate('jwt', { session: false }),
 [
-  check('Username', 'Username cannot have fewer than 5 characters.').isLength({min: 5}),
-  check('Username', 'Username may not contain non alphanumeric characters.').isAlphanumeric(),
-  check('Password', 'Password is required.').not().isEmpty(),
-  check('Email', 'Email must be valid email address.').isEmail()
-], passport.authenticate('jwt', { session: false }), function(req, res) {
-
-  //Check validation object for errors
-  var errors = validationResult(req);
+  check('Username', 'Username should be longer than 4 characters.').isLength({
+    min: 4
+  }),
+  check(
+    'Username',
+    'Username contains non alphanumeric characters - not allowed.'
+  ).isAlphanumeric(),
+  check('Password', 'Password is required')
+    .not()
+    .isEmpty(),
+  check('Email', 'Please enter a valid email address').isEmail()
+],
+(req, res) => {
+  let errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
 
-  //API Post logic
-  var hashedPassword = Users.hashPassword(req.body.Password); //Hash the password using the HashPassword from bcrypt, enforced by models.js
+  let hashedPassword = Users.hashPassword(req.body.Password);
 
-  Users.findOneAndUpdate({ Username : req.params.Username }, { $set :
+  Users.findOneAndUpdate(
+    { _id: req.params.id },
     {
-      Username : req.body.Username,
-      Password : hashedPassword,
-      Email : req.body.Email,
-      Birthday : req.body.Birthday
-    }},
-    { new : true }, //Makes sure updated document is returned
+      $set: {
+        Username: req.body.Username,
+        Password: hashedPassword,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    },
+    { new: true }
+  )
+    .then(user => res.status(201).json(user))
+    .catch(error => errorHandler(error, res));
+}
+);
+
+// Allow users to add a movie to their list of favorites
+app.post("/users/:Username/Movies/:MovieID", function(req, res) {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    {
+      $push: { FavoriteMovies: req.params.MovieID }
+    },
+    { new: true },
     function(err, updatedUser) {
-      if(err) {
+      if (err) {
         console.error(err);
         res.status(500).send("Error: " + err);
       } else {
-        res.json(updatedUser)
+        res.json(updatedUser);
       }
+    }
+  );
+});
+
+// Allow users to remove a movie from their list of favorites
+app.delete(
+  "/users/:Username/FavoriteMovies/:MovieID",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $pull: { FavoriteMovies: req.params.MovieID } },
+      { new: true }, // This line makes sure that the updated document is returned
+      (error, updatedUser) => {
+        if (error) {
+          console.error(error);
+          res.status(500).send("Error: " + error);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+//Get all users
+app.get("/users", function(req, res) {
+  Users.find()
+    .then(function(users) {
+      res.status(201).json(users);
     })
-});
-
-//Adds a movie to a list of user favorites - Mongoose - same syntax as Update User Info
-//Needs the MovieID - need logic to derive the ID from the movie Title
-//Validation to prevent favorites being added to other user's lists?
-app.post("/users/:Username/Movies/:MovieID", passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOneAndUpdate({ Username : req.params.Username }, {
-    $push : { FavoriteMovies : req.params.MovieID }
-  },
-  { new : true },
-  function(err, updatedUser) {
-    if(err) {
+    .catch(function(err) {
       console.error(err);
       res.status(500).send("Error: " + err);
-    } else {
-      res.json(updatedUser)
-    }
-  })
+    });
 });
 
-//Removes a movie from a list of favorites - Mongoose Delete
-//Validation to prevent favorites being removed from other user's lists?
-app.delete("/users/:Username/Movies/:MovieID", passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOneAndUpdate({ Username : req.params.Username }, {
-    $pull : { FavoriteMovies : req.params.MovieID }
-  },
-  { new : true },
-  function(err, updatedUser) {
-    if(err) {
+// Get a user by username
+app.get("/users/:Username", function(req, res) {
+  Users.findOne({ Username: req.params.Username })
+    .then(function(user) {
+      res.json(user);
+    })
+    .catch(function(err) {
       console.error(err);
       res.status(500).send("Error: " + err);
-    } else {
-      res.json(updatedUser)
-    }
-  })
+    });
 });
 
-//Removes a user
-//Validation to a user from deleting a user other than themself? Does the passport.authenticate do this already? I think it might.
-app.delete("/users/:Username", passport.authenticate('jwt', { session: false }), function(req, res) {
-  Users.findOneAndRemove({ Username : req.params.Username })
-  .then(function(user) {
-    if(!user) {
-      res.status(400).send(req.params.Username + " was not found!");
-    } else {
-      res.status(200).send(req.params.Username + " was deleted!");
-    }
-  })
-  .catch(function(err) {
-    console.error(err);
-    res.status(500).send("Error: " + err);
-  });
-});
-
-//Listen for requests
 var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function () {
   console.log("Listening on Port 3000.")
