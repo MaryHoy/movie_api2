@@ -28,9 +28,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-  useNewUrlParser: true
-});
+mongoose.connect("mongodb+srv://maryhoy:1981@cluster0-uufoi.mongodb.net/myFlixDB?retryWrites=true&w=majority", { useNewUrlParser: true });
 
 var auth = require("./auth")(app);
 
