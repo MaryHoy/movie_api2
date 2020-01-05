@@ -54,7 +54,7 @@ app.use(function (err, req, res, next) {
 
 //Requests
 app.get('/', function(req, res) {
-  var responseText = 'Welcome to my app about movies!!'
+  var responseText = 'Welcome to myFlixDB'
   res.send(responseText);
 });
 
