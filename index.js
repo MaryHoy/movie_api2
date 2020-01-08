@@ -39,7 +39,7 @@ var auth = require('./auth')(app);
 app.use(express.static('public'));
 app.use(function (err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Uh-oh! Something\'s not right!');
+  res.status(500).send("Somethings not right");
 });
 
 //Requests
