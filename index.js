@@ -5,7 +5,7 @@ const express = require("express"),
   uuid = require("uuid");
 
 const mongoose = require("mongoose");
-const Models = require("./Models/models.js");
+const Models = require("./models.js");
 const morgan = require("morgan");
 const app = express();
 const Movies = Models.Movie;
