@@ -15,7 +15,7 @@ const cors = require("cors");
 
 //mongoose.connect("mongodb://localhost:27017/test", { useNewUrlParser: true });
 mongoose.connect(
-  "mongodb+srv://maryhoy:1981@cluster0-uufoi.mongodb.net/maryhoymyflixdb?retryWrites=true&w=majority",
+  "mongodb+srv://maryhoy:1981@cluster0-uufoi.mongodb.net/myFlixDB?retryWrites=true&w=majority",
   { useNewUrlParser: true }
 );
 
