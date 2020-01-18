@@ -29,7 +29,7 @@ app.get("/client/*", (req, res) => {
 app.use(cors());
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send("Something broke!");
+  res.status(500).send("Something has broke!");
 });
 
 var auth = require("./auth")(app);
