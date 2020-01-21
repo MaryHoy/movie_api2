@@ -1,47 +1,46 @@
 import React from 'react';
 import axios from 'axios';
+
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
-export class MainView extends React.Component {
-  constructor() {
-    // super class constructor
-    super();
 
-    // init an empty state
-    this.state = { 
-      movies: null,
-      selectedMovie: null
-     };
-  }
+  export class MainView extends React.Component {
 
-  componentDidMount() {
-    // let url_root = 'http://localhost:3000'
-    let url_root = 'https://maryhoyflixdb.herokuapp.com'
-    axios.get(`${url_root}/movies`)
-      .then( response => {
-        // set state with result
-        this.setState({
-          movies: response.data
+    constructor() {
+      super();
+  
+      this.state = {
+        movies: null,
+        selectedMovie: null
+      };
+    }
+
+    // One of the "hooks" available in a React Component
+    componentDidMount() {
+      axios.get('https://maryhoyflixdb.herokuapp.com/movies')
+        .then(response => {
+          // Assign the result to the state
+          this.setState({
+            movies: response.data
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-      })
-      .catch( err => {
-        console.log(err);
+    }
+  
+    onMovieClick(movie) {
+      this.setState({
+        selectedMovie: movie
       });
-  }
-
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    })
-  }
-
-  render() {
-
-    const { movies, selectedMovie } = this.state;
-
-    // if movies is not yet loaded
-    if (!movies) return (<div className="main-view" />);
+    }
+  
+    render() {
+      const { movies, selectedMovie } = this.state;
+  
+      // Before the movies have been loaded
+      if (!movies) return (<div className="main-view" />);
 
     return (
       <div className="main-view">
