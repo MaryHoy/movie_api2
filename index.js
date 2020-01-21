@@ -40,7 +40,7 @@ require("./passport");
 // res.send("Welcome");
 //});
 
-app.get("/movies", passport.authenticate("jwt", { session: false }), function(
+app.get("/movies", function(
   req,
   res
 ) {
@@ -182,7 +182,7 @@ app.put(
     check("Username", "Username is required").isLength({ min: 5 }),
     check(
       "Username",
-      "Username containd non alphanumeric characters - not allowed."
+      "Username contained non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
     check("Password", "Password is required")
       .not()
