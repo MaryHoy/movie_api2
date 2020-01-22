@@ -2,5 +2,5 @@
 node_modules
 # Ignore file named ".DS_Store" .DS_Store/
 DS_Store
-# Ignore folder named ".cache" .cache/
-cache
+# Ignore file named ".cache" .cache/
+.cache
