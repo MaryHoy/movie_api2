@@ -99,7 +99,7 @@ app.get(
   }
 );
 
-app.get("/users", passport.authenticate("jwt", { session: false }), function(
+app.get("/users", function(
   req,
   res
 ) {
