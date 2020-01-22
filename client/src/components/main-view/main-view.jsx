@@ -40,25 +40,17 @@ import { MovieView } from '../movie-view/movie-view';
       const { movies, selectedMovie } = this.state;
   
       // Before the movies have been loaded
-      if (!movies) return (<div className="main-view" />);
+      if (!movies) return <div className="main-view"/>;
 
     return (
-      <div className="main-view">
-        { selectedMovie
-          ? <MovieView 
-              movie={selectedMovie}
-              onClick={() => this.onMovieClick(null)}
-            />
-          : movies.map(movie => (
-            <MovieCard 
-              key={movie._id}
-              movie={movie}
-              onClick={movie => this.onMovieClick(movie)}
-            />
-          ))
-        }
-        
-      </div>
+     <div className="main-view">
+      {selectedMovie
+         ? <MovieView movie={selectedMovie}/>
+         : movies.map(movie => (
+           <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
+         ))
+      }
+     </div>
     );
   }
 }
