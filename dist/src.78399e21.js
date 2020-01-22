@@ -33646,7 +33646,9 @@ function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name)));
+      }, movie.Director.Name), _react.default.createElement("p", null, _react.default.createElement("a", {
+        href: "main-view.jsx"
+      }, "Back to Main View"))));
     }
   }]);
 

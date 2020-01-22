@@ -31,6 +31,7 @@ export class MovieView extends React.Component {
         <div className="movie-director">
           <span className="label">Director: </span>
           <span className="value">{movie.Director.Name}</span>
+          <p><a href="main-view.jsx">Back to Main View</a></p>
         </div>
        </div>
 
