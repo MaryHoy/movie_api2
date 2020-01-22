@@ -36,9 +36,9 @@ var auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 
-//app.get("/", (req, res) => {
-// res.send("Welcome");
-//});
+app.get("/", (req, res) => {
+  res.send("Welcome to MyFlix!");
+});
 
 app.get("/movies", function(
   req,
