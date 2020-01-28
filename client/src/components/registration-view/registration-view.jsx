@@ -20,6 +20,8 @@ export function RegistrationView(props) {
     if (!feedback) {
       feedback = `Please insert your ${label.toLowerCase()}.`;
     }
+
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />; 
     return (
       <Form.Group controlId="formBasicUsername">
         <Form.Label>{label}</Form.Label>

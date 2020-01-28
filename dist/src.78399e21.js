@@ -36258,12 +36258,12 @@ var LoginView = function LoginView(props) {
     onClick: handleSubmit
   }, "Log In"), _react.default.createElement(_Form.default.Text, {
     className: "RegistrationView"
-  }, "New user? Sign up for an account ", _react.default.createElement("a", {
-    href: "./registration-view/registration-view",
+  }), "New user? Sign up for an account ", _react.default.createElement("a", {
+    href: "#",
     onClick: function onClick() {
       return props.onClick();
     }
-  }, "HERE"))));
+  }, "HERE")));
 };
 
 exports.LoginView = LoginView;
@@ -36489,7 +36489,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62846" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64748" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

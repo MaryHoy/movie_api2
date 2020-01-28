@@ -35,8 +35,8 @@ export const LoginView = (props) => {
           Log In
   </Button>
         <Form.Text className="RegistrationView">
-          New user? Sign up for an account <a href="./registration-view/registration-view" onClick={() => props.onClick()}>HERE</a>
-        </Form.Text>
+          
+        </Form.Text>New user? Sign up for an account <a href="#" onClick={() => props.onClick()}>HERE</a>
       </Form>
     </Container>
 
