@@ -1,69 +1,90 @@
-import React from 'react';
 import axios from 'axios';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import React from 'react';
+import Row from 'react-bootstrap/Row';
 
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
-
+import { RegistrationView } from '../registration-view/registration-view';
 import './main-view.scss';
 
+export class MainView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      movies: [],
+      selectedMovie: null,
+      user: null,
+      register: false
+    };
+  }
 
-  export class MainView extends React.Component {
+  //one of the hooks available in React Component
 
-    constructor() {
-      super();
-  
-      this.state = {
-        movies: null,
-        selectedMovie: null,
-        user: null
-      };
-    }
-
-    // One of the "hooks" available in a React Component
-    componentDidMount() {
-      axios.get('https://maryhoyflixdb.herokuapp.com/movies')
-        .then(response => {
-          // Assign the result to the state
-          this.setState({
-            movies: response.data
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  
-    onMovieClick(movie) {
+  componentDidMount() {
+    axios.get('https://maryhoyflixdb.herokuapp.com/movies')
+    .then(res => {
+      console.log(res);
+      ///assign the result to a state
       this.setState({
-        selectedMovie: movie
+        movies: res.data
       });
-    }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
-    onLoggedIn(user) {
-      this.setState({
-        user
-      });
-    }
-  
-    render() {
-      const { movies, selectedMovie, user, register } = this.state;
+  onMovieClick(movie) {
+    this.setState({
+      selectedMovie: movie
+    });
+  }
 
-      if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn (user)} />;
-  
-      // Before the movies have been loaded
-      if (!movies) return <div className="main-view"/>;
+  onLoggedIn(user) {
+    this.setState({
+      user
+    });
+  }
 
+  onButtonClick() {
+    this.setState({
+    selectedMovie: null
+  });
+  }
 
-      return (
-        <div className="main-view">
-         {selectedMovie
-            ? <MovieView movie={selectedMovie}/>
-            : movies.map(movie => (
-              <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
-            ))
-         }
-        </div>
-       );
+  onSignedIn(user) {
+    this.setState({
+      user: user,
+      register: false,
+    });
+  }
+  register() {
+    this.setState({
+      register: true
+    });
+  }
+
+render() {
+  const { movies, selectedMovie, user, register } = this.state;
+
+  if (!user && register === false) return <LoginView onClick={() => this.register()} onLoggedIn={user => this.onLoggedIn(user)} />
+
+  if (register) return <RegistrationView onClick={() => this.alreadyMember()} onSignedIn={user => this.onSignedIn(user)} />
+
+//before the movies has been loaded
+  if (!movies) return <div className="main-view" />;
+  return (
+    <div className="main-view">
+     {selectedMovie
+        ? <MovieView movie={selectedMovie}/>
+        : movies.map(movie => (
+          <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)}/>
+        ))
      }
-   }
+    </div>
+   );
+ }
+}
