@@ -1,8 +1,5 @@
 import axios from 'axios';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import React from 'react';
-import Row from 'react-bootstrap/Row';
 
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
