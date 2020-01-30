@@ -26,7 +26,7 @@ export function RegistrationView(props) {
     // });
   };
 
-  return (
+ return (
     <Container className='registrationContainer'>
       <h1>Register for myFlix!</h1>
       <Form className='registrationForm'>
@@ -59,6 +59,7 @@ export function RegistrationView(props) {
     </Container>
   );
 }
+
 
 RegistrationView.propTypes = {
   onSignedIn: PropTypes.func.isRequired,
