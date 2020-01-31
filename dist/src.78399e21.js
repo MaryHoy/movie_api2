@@ -36198,7 +36198,7 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _axios = _interopRequireDefault(require("axios"));
 
 require("./login-view.scss");
 
@@ -36225,15 +36225,21 @@ function LoginView(props) {
   var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
       password = _useState4[0],
-      setPassword = _useState4[1]; // const registration = useState('')
-
+      setPassword = _useState4[1];
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    console.log(username, password); // send a request to the server for authentication
-    // workaround for authentication
+    /* Send a request to the server for authentication */
 
-    props.onLoggedIn(username);
+    _axios.default.post('https://maryhoyflixdb.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    }).then(function (response) {
+      var data = response.data;
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log('no such user');
+    });
   };
 
   return _react.default.createElement(_Container.default, {
@@ -36268,12 +36274,7 @@ function LoginView(props) {
     }
   }, " Register! ")))));
 }
-
-LoginView.propTypes = {
-  onLoggedIn: _propTypes.default.func.isRequired,
-  onClick: _propTypes.default.func.isRequired
-};
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -36466,19 +36467,32 @@ function (_React$Component) {
       register: false
     };
     return _this;
-  } //one of the hooks available in React Component
-
+  }
 
   _createClass(MainView, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "onLoggedIn",
+    value: function onLoggedIn(authData) {
+      console.log(authData);
+      this.setState({
+        user: authData.user.Username
+      });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      this.getMovies(authData.token);
+    }
+  }, {
+    key: "getMovies",
+    value: function getMovies(token) {
       var _this2 = this;
 
-      _axios.default.get('https://maryhoyflixdb.herokuapp.com/movies').then(function (res) {
-        console.log(res); ///assign the result to a state
-
+      _axios.default.get('Yhttps://maryhoyflixdb.herokuapp.com/movies', {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        // Assign the result to the state
         _this2.setState({
-          movies: res.data
+          movies: response.data
         });
       }).catch(function (error) {
         console.log(error);
@@ -36489,13 +36503,6 @@ function (_React$Component) {
     value: function onMovieClick(movie) {
       this.setState({
         selectedMovie: movie
-      });
-    }
-  }, {
-    key: "onLoggedIn",
-    value: function onLoggedIn(user) {
-      this.setState({
-        user: user
       });
     }
   }, {
@@ -36660,7 +36667,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49712" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52644" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
