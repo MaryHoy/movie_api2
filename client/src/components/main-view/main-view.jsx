@@ -18,7 +18,6 @@ export class MainView extends React.Component {
     };
   }
 
-  
   //one of the hooks available in React Component
 
   componentDidMount() {
@@ -41,29 +40,9 @@ export class MainView extends React.Component {
     });
   }
 
-  onLoggedIn(authData) {
-    console.log(authData);
+  onLoggedIn(user) {
     this.setState({
-      user: authData.user.Username
-    });
-
-    localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
-    this.getMovies(authData.token);
-  }
-
-  getMovies(token) {
-    axios.get('maryhoyflixdb.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}`}
-    })
-    .then(response => {
-      // Assign the result to the state
-      this.setState({
-        movies: response.data
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
+      user
     });
   }
 

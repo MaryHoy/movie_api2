@@ -1,33 +1,22 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-
-import PropTypes from 'prop-types';
-
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 import './login-view.scss';
 
 export function LoginView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  // const registration = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://maryhoyflixdb.herokuapp.com/login', {
-      Username: username,
-      Password: password
-    })
-      .then(response => {
-        const data = response.data;
-        props.onLoggedIn(data);
-      })
-      .catch(e => {
-        console.log('no such user')
-      });
+    console.log(username, password);
+    // send a request to the server for authentication
+    // workaround for authentication
+    props.onLoggedIn(username);
   };
-  
 
   return (
     <Container className='loginContainer'>
