@@ -18,6 +18,9 @@ export class MainView extends React.Component {
     };
   }
 
+  //one of the hooks available in React Component
+
+
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -30,7 +33,7 @@ export class MainView extends React.Component {
   }
 
   getMovies(token) {
-    axios.get('Yhttps://maryhoyflixdb.herokuapp.com/movies', {
+    axios.get('https://maryhoyflixdb.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}`}
     })
     .then(response => {

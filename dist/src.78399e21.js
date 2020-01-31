@@ -36467,7 +36467,8 @@ function (_React$Component) {
       register: false
     };
     return _this;
-  }
+  } //one of the hooks available in React Component
+
 
   _createClass(MainView, [{
     key: "onLoggedIn",
@@ -36485,7 +36486,7 @@ function (_React$Component) {
     value: function getMovies(token) {
       var _this2 = this;
 
-      _axios.default.get('Yhttps://maryhoyflixdb.herokuapp.com/movies', {
+      _axios.default.get('https://maryhoyflixdb.herokuapp.com/movies', {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -36667,7 +36668,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52644" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59238" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
