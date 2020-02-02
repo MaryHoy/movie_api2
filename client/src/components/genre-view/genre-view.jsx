@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
+import './genre-view.scss';
+
 export class GenreView extends React.Component {
   constructor() {
     super();
