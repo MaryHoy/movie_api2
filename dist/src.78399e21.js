@@ -39484,11 +39484,9 @@ function (_React$Component) {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
       }).then(function (response) {
-        alert('Your account has been delted!'); //clears your storage
-
+        alert('Your account has been delted!');
         localStorage.removeItem('token');
-        localStorage.removeItem('user'); //opens login view
-
+        localStorage.removeItem('user');
         window.open('/', '_self');
       }).catch(function (event) {
         alert(event, 'failed to delete user');
@@ -39510,7 +39508,6 @@ function (_React$Component) {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
       }).then(function (response) {
-        // update state with current movie data
         _this3.getUser(localStorage.getItem('token'));
       }).catch(function (event) {
         alert(event, 'Oops... something went wrong...');
@@ -39542,12 +39539,10 @@ function (_React$Component) {
         }
       }).then(function (response) {
         console.log(response);
-        alert('Your data has been updated!'); //update localStorage
+        alert('Your data has been updated!');
+        localStorage.setItem('user', _this4.state.usernameForm);
 
-        localStorage.setItem('user', _this4.state.usernameForm); // call getUser() to display changed userdata after submission
-
-        _this4.getUser(localStorage.getItem('token')); //reset form after submitting data
-
+        _this4.getUser(localStorage.getItem('token'));
 
         document.getElementsByClassName('changeDataForm')[0].requestFullscreen();
       }).catch(function (event) {
@@ -39592,7 +39587,7 @@ function (_React$Component) {
           }
         }
       });
-      console.log('TCL: ProfileView -> render -> filteredFavMovie', filteredFavMovie);
+      console.log(filteredFavMovie);
       if (!userData) return null;
       return _react.default.createElement("div", {
         className: "view"
@@ -39654,7 +39649,7 @@ function (_React$Component) {
         onClick: function onClick(event) {
           return _this5.deleteUser(event);
         }
-      }, "Un-Register"), _react.default.createElement(_Form.default, {
+      }, "Delete Account"), _react.default.createElement(_Form.default, {
         className: "changeDataForm"
       }, _react.default.createElement("h2", null, "Change Data"), _react.default.createElement("hr", null), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicUsername"
@@ -40051,7 +40046,6 @@ function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        // Assign the result to the state
         _this3.setState({
           movies: response.data
         });

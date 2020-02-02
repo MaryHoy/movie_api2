@@ -70,10 +70,8 @@ class ProfileView extends React.Component {
       })
       .then(response => {
         alert('Your account has been delted!');
-        //clears your storage
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        //opens login view
         window.open('/', '_self');
       })
       .catch(event => {
@@ -92,7 +90,6 @@ class ProfileView extends React.Component {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
       .then(response => {
-        // update state with current movie data
         this.getUser(localStorage.getItem('token'));
       })
       .catch(event => {
@@ -125,11 +122,8 @@ class ProfileView extends React.Component {
       .then(response => {
         console.log(response);
         alert('Your data has been updated!');
-        //update localStorage
         localStorage.setItem('user', this.state.usernameForm);
-        // call getUser() to display changed userdata after submission
         this.getUser(localStorage.getItem('token'));
-        //reset form after submitting data
         document
           .getElementsByClassName('changeDataForm')[0]
           .requestFullscreen();
@@ -169,7 +163,6 @@ class ProfileView extends React.Component {
       }
     });
     console.log(
-      'TCL: ProfileView -> render -> filteredFavMovie',
       filteredFavMovie
     );
 
@@ -231,7 +224,7 @@ class ProfileView extends React.Component {
           type="button"
           onClick={event => this.deleteUser(event)}
         >
-          Un-Register
+          Delete Account
         </Button>
      
 

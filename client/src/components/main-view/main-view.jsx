@@ -70,7 +70,6 @@ export class MainView extends React.Component {
                headers: { Authorization: `Bearer ${token}` }
              })
              .then(response => {
-               // Assign the result to the state
                this.setState({
                  movies: response.data
                });
