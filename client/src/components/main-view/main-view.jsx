@@ -1,12 +1,16 @@
 import axios from 'axios';
 import React from 'react';
 
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import { MovieCard } from '../movie-card/movie-card';
 import Button from 'react-bootstrap/Button';
 import { MovieView } from '../movie-view/movie-view';
 import { LoginView } from '../login-view/login-view';
+import { GenreView } from '../genre-view/genre-view';
+import { ProfileView } from '../profile-view/profile-view';
+import { DirectorView } from '../director-view/director-view';
 import { RegistrationView } from '../registration-view/registration-view';
 
 import './main-view.scss';
@@ -18,9 +22,47 @@ export class MainView extends React.Component {
              movies: [],
              selectedMovie: null,
              user: null,
-             register: false
+             register: false,
+             profileData: null
            };
          }
+
+         componentDidMount() {
+          let accessToken = localStorage.getItem('token');
+          if (accessToken !== null) {
+            this.setState({
+              user: localStorage.getItem('user'),
+              profileData: localStorage.getItem('user')
+            });
+            this.getMovies(accessToken);
+          }
+        }
+
+        getProfileData(token) {
+          axios.get(`https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          })
+            .then(response => {
+              // #1 setUserProfile
+              this.props.setUserProfile(response.data);
+            })
+            .catch(function (error) {
+              alert('An error occured: ' + error);
+            });
+        }
+      
+        onLoggedIn(authData) {
+          console.log(authData);
+          this.setState({
+            user: authData.user.Username,
+            profileData: authData.user
+          });
+          this.props.setLoggedInUser(authData.user);
+          localStorage.setItem('token', authData.token);
+          localStorage.setItem('user', authData.user.Username);
+          this.getMovies(authData.token);
+        }
+      
 
          getMovies(token) {
            axios
@@ -38,15 +80,6 @@ export class MainView extends React.Component {
              });
          }
 
-         componentDidMount() {
-           let accessToken = localStorage.getItem("token");
-           if (accessToken !== null) {
-             this.setState({
-               user: localStorage.getItem("user")
-             });
-             this.getMovies(accessToken);
-           }
-         }
 
          //one of the hooks available in React Component
 
@@ -94,6 +127,8 @@ export class MainView extends React.Component {
            });
          }
 
+         
+
          render() {
            const { movies, selectedMovie, user, register } = this.state;
 
@@ -118,6 +153,11 @@ export class MainView extends React.Component {
            return (
              <Router>
                <div className="main-view">
+               <Link to={`/users/${user}`}>
+              <Button className="primary" variant="submit">
+                Profile
+             </Button>
+            </Link>
                  <Button
                    variant="primary"
                    type="submit"
@@ -149,6 +189,10 @@ export class MainView extends React.Component {
                      />
                    )}
                  />
+                  <Route path="/users/:Username" render={({ match }) => { return <ProfileView userInfo={userInfo} /> }} />
+            <Route path="/update/:Username" render={() => <ProfileUpdate userInfo={userInfo} user={user} token={token} updateUser={data => this.updateUser(data)} />}
+            />
+                <Route exact path="/update/:Username" render={() => <UpdateView user={user} />} />
                  <Route path="/genres/:name" render={({ match }) => {
               if (!movies || !movies.length) return <div className="main-view" />;
               return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre} />
@@ -175,3 +219,4 @@ export class MainView extends React.Component {
            );
          }
        }
+
