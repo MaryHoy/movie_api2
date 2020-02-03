@@ -15,24 +15,21 @@ export function RegistrationView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password, birthday, email);
-    props.onLoggedIn(username);
-  }
-
-  axios.post('maryhoyflixdb.herokuapp.com/users', {
-    Username: username,
-    Password: password,
-    Email: email,
-    Birthday: birthday
-  })
-  .then(response => {
-    const data = response.data;
-    console.log(data);
-    window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
-  })
-  .catch(e => {
-    console.log('error registering the user')
-  });
+    axios.post('https://maryhoyflixdb.herokuapp.com/users', {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    })
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        window.open('/', '_self');
+      })
+      .catch(error => {
+        return alert('Registration failed. Please make sure your username is at least 5 chars long' + error);
+      });
+  };
 
  return (
     <Container className='registrationContainer'>

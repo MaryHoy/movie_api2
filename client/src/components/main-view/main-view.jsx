@@ -20,7 +20,6 @@ export class MainView extends React.Component {
     super(props);
     this.state = {
       movies: [],
-      selectedMovie: null,
       user: null,
       register: false,
       profileData: null
@@ -101,17 +100,6 @@ export class MainView extends React.Component {
     localStorage.removeItem("user");
   }
 
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie
-    });
-  }
-
-  onButtonClick() {
-    this.setState({
-      selectedMovie: null
-    });
-  }
 
   onSignedIn(user) {
     this.setState({
@@ -126,9 +114,8 @@ export class MainView extends React.Component {
   }
 
 
-
   render() {
-    const { movies, selectedMovie, user, register } = this.state;
+    const { movies, user, register, profileData } = this.state;
     if (!user && register === false)
       return (
         <LoginView
