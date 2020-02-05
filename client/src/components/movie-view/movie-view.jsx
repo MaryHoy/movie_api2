@@ -1,12 +1,36 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 import './movie-view.scss';
 
 export class MovieView extends React.Component {
   constructor() {
     super();
     this.state = {};
+  }
+
+  addToFavorites(e) {
+    const { movie } = this.props;
+    e.preventDefault();
+    axios.post(
+      `https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${movie._id}`,
+      { username: localStorage.getItem('user') },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      })
+      .then(res => {
+        alert(`${movie.Title} successfully added to your favorites`);
+      })
+      // .then(res => {
+      //   window.open(`/users/${localStorage.getItem('user')}`)
+      // })
+      .then(res => {
+        document.location.reload(true);
+      })
+      .catch(error => {
+        alert(`${movie.Title} not added to your favorites` + error)
+      });
   }
 
   render() {
@@ -39,8 +63,11 @@ export class MovieView extends React.Component {
             <Button variant="link">{movie.Director.Name}</Button>
           </Link>
         </div>
+        <Link to={`/movies/${movie._id}`}>
+            <Button variant="primary" onClick={e => this.addToFavorites(e)}>Add to Favorites</Button>
+          </Link>
         <Link to={`/`}>
-          <Button className="mt-3" variant="primary">
+          <Button variant="primary">
             Back to Movies
           </Button>
         </Link>

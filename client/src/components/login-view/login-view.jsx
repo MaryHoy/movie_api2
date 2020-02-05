@@ -31,7 +31,7 @@ export function LoginView(props) {
       <h1>Welcome to myFlix!</h1>
       <form>
         <Form.Group controlId="formBasicUsername">
-          <Form.Label>Email Username</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control type="email" placeholder="Enter Username" value={username} onChange={e => setUsername(e.target.value)} />
         </Form.Group>
 
@@ -44,7 +44,7 @@ export function LoginView(props) {
         </Button>
 
         <Form.Group controlId='newUser'>
-          <Form.Text>New User? <Button id='registerButton' onClick={() => props.onClick()}> Register! </Button>
+          <Form.Text>New User? <Button variant= 'primary' id='registerButton' onClick={() => props.onClick()}> Register! </Button>
           </Form.Text>
         </Form.Group>
     </form>

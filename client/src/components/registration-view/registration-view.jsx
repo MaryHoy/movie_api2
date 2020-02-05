@@ -27,7 +27,7 @@ export function RegistrationView(props) {
         window.open('/', '_self');
       })
       .catch(error => {
-        return alert('Registration failed. Please make sure your username is at least 5 chars long' + error);
+        return alert('Username taken! Please enter another username.');
       });
   };
 

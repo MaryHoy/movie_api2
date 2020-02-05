@@ -23,7 +23,6 @@ export class ProfileView extends React.Component {
   }
 
   componentDidMount() {
-    //authentication
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       this.getUser(accessToken);
@@ -37,12 +36,11 @@ export class ProfileView extends React.Component {
     })
       .then(response => {
         this.setState({
-          userData: response.data,
           username: response.data.Username,
           password: response.data.Password,
           email: response.data.Email,
           birthday: response.data.Birthday,
-          favouriteMovies: response.data.Favourites
+          favoriteMovies: response.data.FavoriteMovies
         });
       })
       .catch(function (error) {
@@ -76,19 +74,20 @@ export class ProfileView extends React.Component {
       });
   }
 
-  deleteMovieFromFavs(event, favoriteMovies) {
-    event.preventDefault();
-    console.log(favoriteMovies);
-    axios.delete(`https://myaryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}/Favorites/${favoriteMovies}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    })
-      .then(res => {
-        this.getUser(localStorage.getItem('token'));
+
+  deleteFavoriteMovie(movieId) {
+    console.log(this.props.movies);
+      // send a request to the server for authentication
+      axios.delete(`https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${movieId}`, {
+         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
-      .catch(event => {
-        alert('Oops... something went wrong...');
+      .then(res => {
+        alert('Removed movie from favorites');
+      })
+      .catch(e => {
+        alert('error removing movie' + e);
       });
-  }
+    }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -96,6 +95,7 @@ export class ProfileView extends React.Component {
 
   render() {
     const { username, email, birthday, favoriteMovies } = this.state;
+    
 
     return (
       <Card className="profile-view" style={{ width: '32rem' }}>
@@ -103,24 +103,24 @@ export class ProfileView extends React.Component {
           <Card.Title className="profile-title">My Profile</Card.Title>
           <ListGroup className="list-group-flush" variant="flush">
             <ListGroup.Item>Username: {username}</ListGroup.Item>
-            <ListGroup.Item>Password:******* </ListGroup.Item>
+            <ListGroup.Item>Password: ***** </ListGroup.Item>
             <ListGroup.Item>Email: {email}</ListGroup.Item>
             <ListGroup.Item>Birthday: {birthday && birthday.slice(0, 10)}</ListGroup.Item>
             <ListGroup.Item>Favorite Movies: {favoriteMovies}</ListGroup.Item>
-          </ListGroup>
-          <Link to={`/movies/${favoriteMovies}`}>
-                          <Button size="sm" variant="info">Open</Button>
-                        </Link>
-                        <Button variant="secondary" size="sm" onClick={(event) => this.deleteMovieFromFavs(event, favoriteMovies)}>
-                          Delete
-                        </Button>
-          <div className="text-center">
+            </ListGroup>
+            <div className="text-center">
+            <Link to={'/user/update'}>
+                          <Button variant='primary'>Update Profile</Button>
+                      </Link>
+                      <Link to={'/movies/${movie._id}'}>
+                          <Button variant='primary'>My Favorites</Button>
+                      </Link>
             <Link to={`/`}>
-              <Button className="button-back" variant="outline-info">Back to MOVIES</Button>
+              <Button variant="primary" className="button-back">Back to movies</Button>
             </Link>
-            <Link to={`/update/:Username`}>
-              <Button className="button-update" variant="outline-secondary">Update profile</Button>
-            </Link>
+            <Link to={`/`}>
+              <Button variant="danger" className="delete-button" onClick={() => this.deleteProfile()}>Delete my profile</Button>
+              </Link>
           </div>
         </Card.Body>
       </Card>
