@@ -113,7 +113,7 @@ export class ProfileView extends React.Component {
                           <Button variant='primary'>Update Profile</Button>
                       </Link>
                       <Link to={'/movies/${movie._id}'}>
-                          <Button variant='primary'>My Favorites</Button>
+                          <Button variant='primary'onClick={() => this.deleteFavoriteMovie()}>My Favorites</Button>
                       </Link>
             <Link to={`/`}>
               <Button variant="primary" className="button-back">Back to movies</Button>

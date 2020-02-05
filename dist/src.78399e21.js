@@ -40678,7 +40678,10 @@ function (_React$Component) {
       }, "Update Profile")), _react.default.createElement(_reactRouterDom.Link, {
         to: '/movies/${movie._id}'
       }, _react.default.createElement(_Button.default, {
-        variant: "primary"
+        variant: "primary",
+        onClick: function onClick() {
+          return _this4.deleteFavoriteMovie();
+        }
       }, "My Favorites")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
@@ -41448,7 +41451,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61238" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55087" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
