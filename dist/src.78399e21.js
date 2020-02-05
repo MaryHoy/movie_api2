@@ -40676,13 +40676,13 @@ function (_React$Component) {
       }, _react.default.createElement(_Button.default, {
         variant: "primary"
       }, "Update Profile")), _react.default.createElement(_reactRouterDom.Link, {
-        to: '/movies/${movie._id}'
+        to: '/user'
       }, _react.default.createElement(_Button.default, {
         variant: "primary",
         onClick: function onClick() {
           return _this4.deleteFavoriteMovie();
         }
-      }, "My Favorites")), _react.default.createElement(_reactRouterDom.Link, {
+      }, "Delete Favorite")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "primary",
