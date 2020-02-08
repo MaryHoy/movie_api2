@@ -18,7 +18,7 @@ export function UpdateProfile(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log();
-    axios.put(`https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}`, {
+    axios.put(`http://localhost:3000/users/${localStorage.getItem('user')}`, {
       username: username, 
       password: password, 
       birthday: birthday, 

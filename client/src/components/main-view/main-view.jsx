@@ -38,7 +38,7 @@ export class MainView extends React.Component {
   }
 
   getProfileData(token) {
-    axios.get(`https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}`, {
+    axios.get(`http://localhost:3000/users/${localStorage.getItem('user')}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
@@ -64,7 +64,7 @@ export class MainView extends React.Component {
 
   getMovies(token) {
     axios
-      .get("https://maryhoyflixdb.herokuapp.com/movies", {
+      .get("http://localhost:3000/movies", {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
@@ -87,7 +87,7 @@ export class MainView extends React.Component {
     });
 
     localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.Username);
+    localStorage.setItem("user", authData.user.username);
     this.getMovies(authData.token);
   }
 
