@@ -16,10 +16,10 @@ export function RegistrationView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3000/users', {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
+      username: username,
+      password: password,
+      email: email,
+      birthday: birthday
     })
       .then(response => {
         const data = response.data;

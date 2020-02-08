@@ -9,7 +9,7 @@ const Models = require("./models.js");
 const morgan = require("morgan");
 const app = express();
 const Movies = Models.Movie;
-const Users = Models.User;
+const users = Models.user;
 const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 
@@ -105,7 +105,7 @@ app.get("/users", function(
   req,
   res
 ) {
-  Users.find()
+  users.find()
     .then(function(users) {
       res.status(201).json(users);
     })
@@ -116,10 +116,10 @@ app.get("/users", function(
 });
 
 app.get(
-  "/users/:Username",
+  "/users/:username",
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
-    Users.findOne({ Username: req.params.Username })
+    users.findOne({ username: req.params.username })
       .then(function(user) {
         res.json(user);
       })
@@ -133,10 +133,10 @@ app.get(
 app.post(
   "/users",
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    check("username", "username is required").isLength({ min: 5 }),
     check(
-      "Username",
-      "Username contains non alphanumeric characters - not allowed."
+      "username",
+      "username contains non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
     check("Password", "Password is required")
       .not()
@@ -149,17 +149,17 @@ app.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    var hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({ Username: req.body.Username })
+    var hashedPassword = users.hashPassword(req.body.password);
+    users.findOne({ username: req.body.username })
       .then(function(user) {
         if (user) {
-          return res.status(400).send(req.body.Username + "already exist");
+          return res.status(400).send(req.body.username + "already exist");
         } else {
-          Users.create({
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
+          users.create({
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email,
+            birthday: req.body.birthday
           })
             .then(function(user) {
               res.status(201).json(user);
@@ -178,7 +178,7 @@ app.post(
 );
 
 app.put(
-  "/users/:Username",
+  "/users/:username",
   passport.authenticate("jwt", { session: false }),
   [
     check("username", "username is required").isLength({ min: 5 }),
@@ -198,9 +198,9 @@ app.put(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    var hashedPassword = Users.hashPassword(req.body.password);
+    var hashedPassword = users.hashPassword(req.body.password);
 
-    Users.findOneAndUpdate(
+    users.findOneAndUpdate(
       { username: req.params.username },
       {
         $set: {
@@ -211,12 +211,12 @@ app.put(
         }
       },
       { new: true },
-      function(err, updatedUser) {
+      function(err, updateduser) {
         if (err) {
           console.error(err);
           res.status(500).send("Error: " + err);
         } else {
-          res.json(updatedUser);
+          res.json(updateduser);
         }
       }
     );
@@ -224,21 +224,21 @@ app.put(
 );
 
 app.post(
-  "/users/:Username/Movies/:MovieID",
+  "/users/:username/Movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
+    users.findOneAndUpdate(
+      { username: req.params.username },
       {
         $push: { Favorites: req.params.MovieID }
       },
       { new: true },
-      function(err, updatedUser) {
+      function(err, updateduser) {
         if (err) {
           console.error(err);
           res.status(500).send("Error: " + err);
         } else {
-          res.json(updatedUser);
+          res.json(updateduser);
         }
       }
     );
@@ -246,21 +246,21 @@ app.post(
 );
 
 app.delete(
-  "/users/:Username/:Movies/:MovieID",
+  "/users/:username/:Movies/:MovieID",
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
+    users.findOneAndUpdate(
+      { username: req.params.username },
       {
         $pull: { Favorites: req.params.MovieID }
       },
       { new: true },
-      function(err, updatedUser) {
+      function(err, updateduser) {
         if (err) {
           console.error(err);
           res.status(500).send("Error: " + err);
         } else {
-          res.json(updatedUser);
+          res.json(updateduser);
         }
       }
     );
@@ -268,15 +268,15 @@ app.delete(
 );
 
 app.delete(
-  "/users/:Username",
+  "/users/:username",
   passport.authenticate("jwt", { session: false }),
   function(req, res) {
-    Users.findOneAndRemove({ Username: req.params.Username })
+    users.findOneAndRemove({ username: req.params.username })
       .then(function(user) {
         if (!user) {
-          res.status(400).send((req.params.Username = " was not found"));
+          res.status(400).send((req.params.username = " was not found"));
         } else {
-          res.status(200).send((req.params.Username = " was deleted."));
+          res.status(200).send((req.params.username = " was deleted."));
         }
       })
       .catch(function(err) {
