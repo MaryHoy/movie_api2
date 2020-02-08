@@ -4,3 +4,4 @@ node_modules
 DS_Store
 # Ignore file named ".cache" .cache/
 .cache
+dist
