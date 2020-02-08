@@ -42,11 +42,6 @@ export function LoginView(props) {
         <Button id='loginButton' onClick={handleSubmit}>
           Log in
         </Button>
-
-        <Form.Group controlId='newUser'>
-          <Form.Text>New User? <Button variant= 'primary' id='registerButton' onClick={() => props.onClick()}> Register! </Button>
-          </Form.Text>
-        </Form.Group>
     </form>
     </Container>
   );

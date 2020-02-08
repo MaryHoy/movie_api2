@@ -1,7 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import './registration-view.scss';
 import axios from 'axios';
@@ -66,7 +65,3 @@ export function RegistrationView(props) {
 }
 
 
-RegistrationView.propTypes = {
-  onSignedIn: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired
-};
