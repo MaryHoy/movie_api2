@@ -38280,7 +38280,7 @@ function (_React$Component) {
       var movie = this.props.movie;
       e.preventDefault();
 
-      _axios.default.post("http://localhost:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movie._id), {
+      _axios.default.post("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movie._id), {
         username: localStorage.getItem('user')
       }, {
         headers: {
@@ -39175,7 +39175,56 @@ Form.Label = _FormLabel.default;
 Form.Text = _FormText.default;
 var _default = Form;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"../node_modules/classnames/index.js","react":"../node_modules/react/index.js","./FormCheck":"../node_modules/react-bootstrap/esm/FormCheck.js","./FormControl":"../node_modules/react-bootstrap/esm/FormControl.js","./FormGroup":"../node_modules/react-bootstrap/esm/FormGroup.js","./FormLabel":"../node_modules/react-bootstrap/esm/FormLabel.js","./FormText":"../node_modules/react-bootstrap/esm/FormText.js","./Switch":"../node_modules/react-bootstrap/esm/Switch.js","./ThemeProvider":"../node_modules/react-bootstrap/esm/ThemeProvider.js","./createWithBsPrefix":"../node_modules/react-bootstrap/esm/createWithBsPrefix.js"}],"components/login-view/login-view.jsx":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"../node_modules/classnames/index.js","react":"../node_modules/react/index.js","./FormCheck":"../node_modules/react-bootstrap/esm/FormCheck.js","./FormControl":"../node_modules/react-bootstrap/esm/FormControl.js","./FormGroup":"../node_modules/react-bootstrap/esm/FormGroup.js","./FormLabel":"../node_modules/react-bootstrap/esm/FormLabel.js","./FormText":"../node_modules/react-bootstrap/esm/FormText.js","./Switch":"../node_modules/react-bootstrap/esm/Switch.js","./ThemeProvider":"../node_modules/react-bootstrap/esm/ThemeProvider.js","./createWithBsPrefix":"../node_modules/react-bootstrap/esm/createWithBsPrefix.js"}],"../node_modules/react-bootstrap/esm/Container.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ThemeProvider = require("./ThemeProvider");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultProps = {
+  fluid: false
+};
+
+var Container = _react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
+function (_ref, ref) {
+  var bsPrefix = _ref.bsPrefix,
+      fluid = _ref.fluid,
+      _ref$as = _ref.as,
+      Component = _ref$as === void 0 ? 'div' : _ref$as,
+      className = _ref.className,
+      props = (0, _objectWithoutPropertiesLoose2.default)(_ref, ["bsPrefix", "fluid", "as", "className"]);
+  var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'container');
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    ref: ref
+  }, props, {
+    className: (0, _classnames.default)(className, fluid ? prefix + "-fluid" : prefix)
+  }));
+});
+
+Container.displayName = 'Container';
+Container.defaultProps = defaultProps;
+var _default = Container;
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"../node_modules/classnames/index.js","react":"../node_modules/react/index.js","./ThemeProvider":"../node_modules/react-bootstrap/esm/ThemeProvider.js"}],"components/login-view/login-view.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/login-view/login-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -39189,7 +39238,11 @@ var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
 var _axios = _interopRequireDefault(require("axios"));
+
+require("./login-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39220,8 +39273,8 @@ function LoginView(props) {
     e.preventDefault();
     /* Send a request to the server for authentication */
 
-    _axios.default.post('http://localhost:3000/login', {
-      Username: username,
+    _axios.default.post('http://localhost:127.0.0.1:3000/login', {
+      username: username,
       Password: password
     }).then(function (response) {
       var data = response.data;
@@ -39231,11 +39284,13 @@ function LoginView(props) {
     });
   };
 
-  return _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default.Group, {
+  return _react.default.createElement(_Container.default, {
+    className: "loginContainer"
+  }, _react.default.createElement("h1", null, "Welcome to myFlix!"), _react.default.createElement("form", null, _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicUsername"
-  }, _react.default.createElement(_Form.default.Label, null, "Username:"), _react.default.createElement(_Form.default.Control, {
-    type: "text",
-    placeholder: "Enter username",
+  }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
+    type: "email",
+    placeholder: "Enter Username",
     value: username,
     onChange: function onChange(e) {
       return setUsername(e.target.value);
@@ -39250,12 +39305,19 @@ function LoginView(props) {
       return setPassword(e.target.value);
     }
   })), _react.default.createElement(_Button.default, {
-    variant: "primary",
-    type: "submit",
+    id: "loginButton",
     onClick: handleSubmit
-  }, "Submit"));
+  }, "Log in"), _react.default.createElement(_Form.default.Group, {
+    controlId: "newUser"
+  }, _react.default.createElement(_Form.default.Text, null, "New User? ", _react.default.createElement(_Button.default, {
+    variant: "primary",
+    id: "registerButton",
+    onClick: function onClick() {
+      return props.onClick();
+    }
+  }, " Register! ")))));
 }
-},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","axios":"../node_modules/axios/index.js"}],"components/genre-view/genre-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","axios":"../node_modules/axios/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/genre-view/genre-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -40525,7 +40587,7 @@ function (_React$Component) {
 
       var username = localStorage.getItem('user');
 
-      _axios.default.get("http://localhost:3000/users/".concat(username), {
+      _axios.default.get("http://localhost:127.0.0.1:3000/users/".concat(username), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -40546,7 +40608,7 @@ function (_React$Component) {
     value: function deleteProfile() {
       var _this3 = this;
 
-      _axios.default.delete("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
+      _axios.default.delete("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -40572,7 +40634,7 @@ function (_React$Component) {
     value: function deleteFavoriteMovie(movieId) {
       console.log(this.props.movies); // send a request to the server for authentication
 
-      _axios.default.delete("http://localhost:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movieId), {
+      _axios.default.delete("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movieId), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -40641,51 +40703,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"../node_modules/react-bootstrap/esm/Container.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutPropertiesLoose"));
-
-var _classnames = _interopRequireDefault(require("classnames"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _ThemeProvider = require("./ThemeProvider");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var defaultProps = {
-  fluid: false
-};
-
-var Container = _react.default.forwardRef( // Need to define the default "as" during prop destructuring to be compatible with styled-components github.com/react-bootstrap/react-bootstrap/issues/3595
-function (_ref, ref) {
-  var bsPrefix = _ref.bsPrefix,
-      fluid = _ref.fluid,
-      _ref$as = _ref.as,
-      Component = _ref$as === void 0 ? 'div' : _ref$as,
-      className = _ref.className,
-      props = (0, _objectWithoutPropertiesLoose2.default)(_ref, ["bsPrefix", "fluid", "as", "className"]);
-  var prefix = (0, _ThemeProvider.useBootstrapPrefix)(bsPrefix, 'container');
-  return _react.default.createElement(Component, (0, _extends2.default)({
-    ref: ref
-  }, props, {
-    className: (0, _classnames.default)(className, fluid ? prefix + "-fluid" : prefix)
-  }));
-});
-
-Container.displayName = 'Container';
-Container.defaultProps = defaultProps;
-var _default = Container;
-exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"../node_modules/classnames/index.js","react":"../node_modules/react/index.js","./ThemeProvider":"../node_modules/react-bootstrap/esm/ThemeProvider.js"}],"components/profile-view/profile-update.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/ListGroup":"../node_modules/react-bootstrap/esm/ListGroup.js","./profile-view.scss":"components/profile-view/profile-view.scss","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/profile-view/profile-update.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40746,7 +40764,7 @@ function UpdateProfile(props) {
     e.preventDefault();
     console.log();
 
-    _axios.default.put("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
+    _axios.default.put("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user')), {
       username: username,
       password: password,
       birthday: birthday,
@@ -40968,7 +40986,7 @@ function RegistrationView(props) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
 
-    _axios.default.post('http://localhost:3000/users', {
+    _axios.default.post('http://localhost:127.0.0.1:3000/users', {
       username: username,
       password: password,
       email: email,
@@ -41135,7 +41153,7 @@ function (_React$Component) {
     value: function getProfileData(token) {
       var _this2 = this;
 
-      _axios.default.get("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
+      _axios.default.get("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41163,7 +41181,7 @@ function (_React$Component) {
     value: function getMovies(token) {
       var _this3 = this;
 
-      _axios.default.get("http://localhost:3000/movies", {
+      _axios.default.get("http://localhost:127.0.0.1:3000/movies", {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41433,7 +41451,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50266" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58933" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

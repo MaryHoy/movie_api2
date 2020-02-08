@@ -15,7 +15,7 @@ export function RegistrationView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/users', {
+    axios.post('http://localhost:127.0.0.1:3000/users', {
       username: username,
       password: password,
       email: email,
