@@ -38280,7 +38280,7 @@ function (_React$Component) {
       var movie = this.props.movie;
       e.preventDefault();
 
-      _axios.default.post("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movie._id), {
+      _axios.default.post("http://localhost:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movie._id), {
         username: localStorage.getItem('user')
       }, {
         headers: {
@@ -39273,9 +39273,9 @@ function LoginView(props) {
     e.preventDefault();
     /* Send a request to the server for authentication */
 
-    _axios.default.post('http://localhost:127.0.0.1:3000/login', {
+    _axios.default.post('http://localhost:3000/login', {
       username: username,
-      Password: password
+      password: password
     }).then(function (response) {
       var data = response.data;
       props.onLoggedIn(data);
@@ -40587,7 +40587,7 @@ function (_React$Component) {
 
       var username = localStorage.getItem('user');
 
-      _axios.default.get("http://localhost:127.0.0.1:3000/users/".concat(username), {
+      _axios.default.get("http://localhost:3000/users/".concat(username), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -40608,7 +40608,7 @@ function (_React$Component) {
     value: function deleteProfile() {
       var _this3 = this;
 
-      _axios.default.delete("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user')), {
+      _axios.default.delete("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -40634,7 +40634,7 @@ function (_React$Component) {
     value: function deleteFavoriteMovie(movieId) {
       console.log(this.props.movies); // send a request to the server for authentication
 
-      _axios.default.delete("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movieId), {
+      _axios.default.delete("http://localhost:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movieId), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -40764,7 +40764,7 @@ function UpdateProfile(props) {
     e.preventDefault();
     console.log();
 
-    _axios.default.put("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user')), {
+    _axios.default.put("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
       username: username,
       password: password,
       birthday: birthday,
@@ -40986,7 +40986,7 @@ function RegistrationView(props) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
 
-    _axios.default.post('http://localhost:127.0.0.1:3000/users', {
+    _axios.default.post('http://localhost:3000/users', {
       username: username,
       password: password,
       email: email,
@@ -40996,7 +40996,7 @@ function RegistrationView(props) {
       console.log(data);
       window.open('/', '_self');
     }).catch(function (error) {
-      return alert('Username taken! Please enter another username.');
+      console.log(error);
     });
   };
 
@@ -41153,7 +41153,7 @@ function (_React$Component) {
     value: function getProfileData(token) {
       var _this2 = this;
 
-      _axios.default.get("http://localhost:127.0.0.1:3000/users/".concat(localStorage.getItem('user')), {
+      _axios.default.get("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41181,7 +41181,7 @@ function (_React$Component) {
     value: function getMovies(token) {
       var _this3 = this;
 
-      _axios.default.get("http://localhost:127.0.0.1:3000/movies", {
+      _axios.default.get("http://localhost:3000/movies", {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41451,7 +41451,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55932" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56499" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

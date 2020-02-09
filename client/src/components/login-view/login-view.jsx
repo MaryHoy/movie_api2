@@ -13,9 +13,9 @@ export function LoginView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     /* Send a request to the server for authentication */
-    axios.post('http://localhost:127.0.0.1:3000/login', {
+    axios.post('http://localhost:3000/login', {
       username: username,
-      Password: password
+      password: password
     })
     .then(response => {
       const data = response.data;

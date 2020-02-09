@@ -138,10 +138,10 @@ app.post(
       "username",
       "username contains non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
-    check("Password", "Password is required")
+    check("password", "Password is required")
       .not()
       .isEmpty(),
-    check("Email", "Email does not appear to be valid").isEmail()
+    check("email", "Email does not appear to be valid").isEmail()
   ],
   (req, res) => {
     var errors = validationResult(req);
@@ -150,16 +150,16 @@ app.post(
     }
 
     var hashedPassword = users.hashPassword(req.body.password);
-    users.findOne({ username: req.body.username })
+    users.findOne({ Username: req.body.username })
       .then(function(user) {
         if (user) {
           return res.status(400).send(req.body.username + "already exist");
         } else {
           users.create({
-            username: req.body.username,
-            password: hashedPassword,
-            email: req.body.email,
-            birthday: req.body.birthday
+            Username: req.body.username,
+            Password: hashedPassword,
+            Email: req.body.email,
+            Birthday: req.body.birthday
           })
             .then(function(user) {
               res.status(201).json(user);
@@ -181,15 +181,15 @@ app.put(
   "/users/:username",
   passport.authenticate("jwt", { session: false }),
   [
-    check("username", "username is required").isLength({ min: 5 }),
+    check("Username", "username is required").isLength({ min: 5 }),
     check(
-      "username",
+      "Username",
       "username contained non alphanumeric characters - not allowed."
     ).isAlphanumeric(),
-    check("password", "password is required")
+    check("Password", "password is required")
       .not()
       .isEmpty(),
-    check("email", "email does not appear to be valid").isEmail()
+    check("Email", "email does not appear to be valid").isEmail()
   ],
   (req, res) => {
     var errors = validationResult(req);
@@ -201,13 +201,13 @@ app.put(
     var hashedPassword = users.hashPassword(req.body.password);
 
     users.findOneAndUpdate(
-      { username: req.params.username },
+      { Username: req.params.username },
       {
         $set: {
-          username: req.body.username,
-          password: hashedPassword,
-          email: req.body.email,
-          birthday: req.body.birthday
+          Username: req.body.username,
+          Password: hashedPassword,
+          Email: req.body.email,
+          Birthday: req.body.birthday
         }
       },
       { new: true },
