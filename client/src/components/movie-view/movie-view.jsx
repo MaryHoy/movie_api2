@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { Redirect } from 'react-router';
 import './movie-view.scss';
 
 export class MovieView extends React.Component {
@@ -20,13 +21,15 @@ export class MovieView extends React.Component {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
       .then(res => {
+        console.log('res', res);
         alert(`${movie.Title} successfully added to your favorites`);
       })
       // .then(res => {
       //   window.open(`/users/${localStorage.getItem('user')}`)
       // })
       .then(res => {
-        document.location.reload(true);
+        // document.location.reload(true);
+        return <Redirect to="`/movies/${movie._id}`" />; // use Redirect Router instead of document location
       })
       .catch(error => {
         alert(`${movie.Title} not added to your favorites` + error)
