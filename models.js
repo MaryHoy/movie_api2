@@ -34,7 +34,7 @@ userSchema.methods.validatePassword = function(password) {
 };
 
 var Movie = mongoose.model("Movie", movieSchema);
-var user = mongoose.model("user", userSchema);
+var user = mongoose.model("User", userSchema);
 
 module.exports.Movie = Movie;
-module.exports.user = user;
+module.exports.User = user;

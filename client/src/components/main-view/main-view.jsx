@@ -38,7 +38,7 @@ export class MainView extends React.Component {
   }
 
   getProfileData(token) {
-    axios.get(`http://localhost:3000/users/${localStorage.getItem('user')}`, {
+    axios.get(`https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
@@ -64,7 +64,7 @@ export class MainView extends React.Component {
 
   getMovies(token) {
     axios
-      .get("http://localhost:3000/movies", {
+      .get("https://maryhoyflixdb.herokuapp.com/movies", {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
@@ -115,7 +115,7 @@ export class MainView extends React.Component {
 
   updateUser(data) {
     this.setState({
-      userInfo: data
+      profileData: data
     });
     localStorage.setItem('user', data.Username);
   }

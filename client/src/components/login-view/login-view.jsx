@@ -13,7 +13,7 @@ export function LoginView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     /* Send a request to the server for authentication */
-    axios.post('http://localhost:3000/login', {
+    axios.post('https://maryhoyflixdb.herokuapp.com/login', {
       username: username,
       password: password
     })

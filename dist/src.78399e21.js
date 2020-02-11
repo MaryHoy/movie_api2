@@ -38282,7 +38282,7 @@ function (_React$Component) {
       var movie = this.props.movie;
       e.preventDefault();
 
-      _axios.default.post("http://localhost:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movie._id), {
+      _axios.default.post("https://maryhoyflixdb.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movie._id), {
         username: localStorage.getItem('user')
       }, {
         headers: {
@@ -39279,7 +39279,7 @@ function LoginView(props) {
     e.preventDefault();
     /* Send a request to the server for authentication */
 
-    _axios.default.post('http://localhost:3000/login', {
+    _axios.default.post('https://maryhoyflixdb.herokuapp.com/login', {
       username: username,
       password: password
     }).then(function (response) {
@@ -40580,6 +40580,7 @@ function (_React$Component) {
   _createClass(ProfileView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      //authentication
       var accessToken = localStorage.getItem('token');
 
       if (accessToken !== null) {
@@ -40593,17 +40594,18 @@ function (_React$Component) {
 
       var username = localStorage.getItem('user');
 
-      _axios.default.get("https://agile-basin-23783.herokuapp.com/users/".concat(username), {
+      _axios.default.get("https://maryhoyflixdb.herokuapp.com/users/".concat(username), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
         _this2.setState({
+          userData: response.data,
           username: response.data.Username,
           password: response.data.Password,
           email: response.data.Email,
           birthday: response.data.Birthday,
-          favoriteMovies: response.data.FavoriteMovies
+          favouriteMovies: response.data.Favourites
         });
       }).catch(function (error) {
         console.log(error);
@@ -40614,7 +40616,7 @@ function (_React$Component) {
     value: function deleteProfile() {
       var _this3 = this;
 
-      _axios.default.delete("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
+      _axios.default.delete("https://maryhoyflixdb.herokuapp.com/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -40636,18 +40638,21 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "deleteFavoriteMovie",
-    value: function deleteFavoriteMovie(movieId) {
-      console.log(this.props.movies); // send a request to the server for authentication
+    key: "deleteMovieFromFavs",
+    value: function deleteMovieFromFavs(event, favoriteMovies) {
+      var _this4 = this;
 
-      _axios.default.delete("http://localhost:3000/users/".concat(localStorage.getItem('user'), "/Movies/").concat(movieId), {
+      event.preventDefault();
+      console.log(favoriteMovies);
+
+      _axios.default.delete("https://myaryhoyflixdb2.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Favorites/").concat(favoriteMovies), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
       }).then(function (res) {
-        alert('Removed movie from favorites');
-      }).catch(function (e) {
-        alert('error removing movie' + e);
+        _this4.getUser(localStorage.getItem('token'));
+      }).catch(function (event) {
+        alert('Oops... something went wrong...');
       });
     }
   }, {
@@ -40658,7 +40663,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _this$state = this.state,
           username = _this$state.username,
@@ -40675,7 +40680,7 @@ function (_React$Component) {
       }, "My Profile"), _react.default.createElement(_ListGroup.default, {
         className: "list-group-flush",
         variant: "flush"
-      }, _react.default.createElement(_ListGroup.default.Item, null, "Username: ", username), _react.default.createElement(_ListGroup.default.Item, null, "Password: ***** "), _react.default.createElement(_ListGroup.default.Item, null, "Email: ", email), _react.default.createElement(_ListGroup.default.Item, null, "Birthday: ", birthday && birthday.slice(0, 10)), _react.default.createElement(_ListGroup.default.Item, null, "Favorite Movies: ", favoriteMovies)), _react.default.createElement("div", {
+      }, _react.default.createElement(_ListGroup.default.Item, null, "Username: ", username), _react.default.createElement(_ListGroup.default.Item, null, "Password:******* "), _react.default.createElement(_ListGroup.default.Item, null, "Email: ", email), _react.default.createElement(_ListGroup.default.Item, null, "Birthday: ", birthday && birthday.slice(0, 10)), _react.default.createElement(_ListGroup.default.Item, null, "Favorite Movies: ", favoriteMovies)), _react.default.createElement("div", {
         className: "text-center"
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: '/user/update'
@@ -40686,7 +40691,7 @@ function (_React$Component) {
       }, _react.default.createElement(_Button.default, {
         variant: "primary",
         onClick: function onClick() {
-          return _this4.deleteFavoriteMovie(favoriteMovies[0]);
+          return _this5.deleteFavoriteMovie(favoriteMovies[0]);
         }
       }, "Delete Favorite")), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -40699,7 +40704,7 @@ function (_React$Component) {
         variant: "danger",
         className: "delete-button",
         onClick: function onClick() {
-          return _this4.deleteProfile();
+          return _this5.deleteProfile();
         }
       }, "Delete my profile")))));
     }
@@ -40772,7 +40777,7 @@ function UpdateProfile(props) {
     e.preventDefault();
     console.log();
 
-    _axios.default.put("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
+    _axios.default.put("https://maryhoyflixdb.herokuapp.com/users/".concat(localStorage.getItem('user')), {
       username: username,
       password: password,
       birthday: birthday,
@@ -40996,7 +41001,7 @@ function RegistrationView(props) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
 
-    _axios.default.post('http://localhost:3000/users', {
+    _axios.default.post('https://maryhoyflixdb.herokuapp.com/users', {
       username: username,
       password: password,
       email: email,
@@ -41163,7 +41168,7 @@ function (_React$Component) {
     value: function getProfileData(token) {
       var _this2 = this;
 
-      _axios.default.get("http://localhost:3000/users/".concat(localStorage.getItem('user')), {
+      _axios.default.get("https://maryhoyflixdb.herokuapp.com/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41191,7 +41196,7 @@ function (_React$Component) {
     value: function getMovies(token) {
       var _this3 = this;
 
-      _axios.default.get("http://localhost:3000/movies", {
+      _axios.default.get("https://maryhoyflixdb.herokuapp.com/movies", {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41243,7 +41248,7 @@ function (_React$Component) {
     key: "updateUser",
     value: function updateUser(data) {
       this.setState({
-        userInfo: data
+        profileData: data
       });
       localStorage.setItem('user', data.Username);
     }
@@ -41461,7 +41466,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59592" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50648" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

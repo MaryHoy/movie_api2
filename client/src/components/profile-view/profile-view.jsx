@@ -23,6 +23,7 @@ export class ProfileView extends React.Component {
   }
 
   componentDidMount() {
+    //authentication
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
       this.getUser(accessToken);
@@ -31,16 +32,17 @@ export class ProfileView extends React.Component {
 
   getUser(token) {
     let username = localStorage.getItem('user');
-    axios.get(`https://agile-basin-23783.herokuapp.com/users/${username}`, {
+    axios.get(`https://maryhoyflixdb.herokuapp.com/users/${username}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
         this.setState({
+          userData: response.data,
           username: response.data.Username,
           password: response.data.Password,
           email: response.data.Email,
           birthday: response.data.Birthday,
-          favoriteMovies: response.data.FavoriteMovies
+          favouriteMovies: response.data.Favourites
         });
       })
       .catch(function (error) {
@@ -49,7 +51,7 @@ export class ProfileView extends React.Component {
   }
 
   deleteProfile() {
-    axios.delete(`http://localhost:3000/users/${localStorage.getItem('user')}`,
+    axios.delete(`https://maryhoyflixdb.herokuapp.com/users/${localStorage.getItem('user')}`,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
@@ -74,20 +76,19 @@ export class ProfileView extends React.Component {
       });
   }
 
-
-  deleteFavoriteMovie(movieId) {
-    console.log(this.props.movies);
-      // send a request to the server for authentication
-      axios.delete(`http://localhost:3000/users/${localStorage.getItem('user')}/Movies/${movieId}`, {
-         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      })
+  deleteMovieFromFavs(event, favoriteMovies) {
+    event.preventDefault();
+    console.log(favoriteMovies);
+    axios.delete(`https://myaryhoyflixdb2.herokuapp.com/users/${localStorage.getItem('user')}/Favorites/${favoriteMovies}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
       .then(res => {
-        alert('Removed movie from favorites');
+        this.getUser(localStorage.getItem('token'));
       })
-      .catch(e => {
-        alert('error removing movie' + e);
+      .catch(event => {
+        alert('Oops... something went wrong...');
       });
-    }
+  }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value })
@@ -95,19 +96,18 @@ export class ProfileView extends React.Component {
 
   render() {
     const { username, email, birthday, favoriteMovies } = this.state;
-    
 
     return (
       <Card className="profile-view" style={{ width: '32rem' }}>
-        <Card.Body>
-          <Card.Title className="profile-title">My Profile</Card.Title>
-          <ListGroup className="list-group-flush" variant="flush">
-            <ListGroup.Item>Username: {username}</ListGroup.Item>
-            <ListGroup.Item>Password: ***** </ListGroup.Item>
-            <ListGroup.Item>Email: {email}</ListGroup.Item>
-            <ListGroup.Item>Birthday: {birthday && birthday.slice(0, 10)}</ListGroup.Item>
-            <ListGroup.Item>Favorite Movies: {favoriteMovies}</ListGroup.Item>
-            </ListGroup>
+      <Card.Body>
+        <Card.Title className="profile-title">My Profile</Card.Title>
+        <ListGroup className="list-group-flush" variant="flush">
+          <ListGroup.Item>Username: {username}</ListGroup.Item>
+          <ListGroup.Item>Password:******* </ListGroup.Item>
+          <ListGroup.Item>Email: {email}</ListGroup.Item>
+          <ListGroup.Item>Birthday: {birthday && birthday.slice(0, 10)}</ListGroup.Item>
+          <ListGroup.Item>Favorite Movies: {favoriteMovies}</ListGroup.Item>
+        </ListGroup>
             <div className="text-center">
             <Link to={'/user/update'}>
                           <Button variant='primary'>Update Profile</Button>
