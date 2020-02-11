@@ -40593,7 +40593,7 @@ function (_React$Component) {
 
       var username = localStorage.getItem('user');
 
-      _axios.default.get("http://localhost:3000/users/".concat(username), {
+      _axios.default.get("https://agile-basin-23783.herokuapp.com/users/".concat(username), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -41461,7 +41461,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64623" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59592" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
